@@ -11,6 +11,7 @@ const Layout = ({ children }) => {
     { text: 'Inicio', icon: <Home />, path: '/' },
     { text: 'Scrapear', icon: <Search />, path: '/scrape' },
     { text: 'Perfil', icon: <AccountCircle />, path: '/perfil' },
+    { text: 'Dashboard', icon: <Search />, path: '/dashboard' }, // Añadido Dashboard
   ];
 
   return (
