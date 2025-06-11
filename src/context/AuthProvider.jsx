@@ -1,31 +1,27 @@
 // src/context/AuthProvider.jsx
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import AuthContext from "./AuthContext";
 
-const AuthContext = createContext();
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthProvider = ({ children }) => {
+  const [user, setUser]     = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const navigate            = useNavigate();
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user ?? null);
       setLoading(false);
-    };
-
-    checkUser();
-
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user || null);
-      if (event === "SIGNED_IN") navigate("/");
-      if (event === "SIGNED_OUT") navigate("/login");
     });
 
-    return () => listener?.subscription?.unsubscribe();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (_event === "SIGNED_OUT") navigate("/login");
+      if (_event === "SIGNED_IN")  navigate("/");
+    });
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   return (
@@ -35,4 +31,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export default AuthProvider;
