@@ -41,7 +41,7 @@ const DashboardPage = () => {
           >
             <iframe
               title="Dashboard Power BI"
-              src="https://app.powerbi.com/reportEmbed?reportId=8a233497-d500-45ef-9002-6c1428fd4f9b&autoAuth=true&ctid=717b9a79-1b91-41ab-a6f7-a579b46a9b41"
+              src="https://app.powerbi.com/reportEmbed?reportId=19a2f51e-af5f-41d0-87ac-6d8ff441584f&autoAuth=true&ctid=717b9a79-1b91-41ab-a6f7-a579b46a9b41"
               width="100%"
               height="100%"
               frameBorder="0"
